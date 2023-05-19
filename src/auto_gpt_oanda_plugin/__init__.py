@@ -1,6 +1,9 @@
 """This is a template for Auto-GPT plugins."""
 import abc
 from typing import Any, Dict, List, Optional, Tuple, TypeVar, TypedDict
+from .trade import Trade
+from .market import Market
+from .account import Account
 
 from abstract_singleton import AbstractSingleton, Singleton
 
@@ -12,16 +15,16 @@ class Message(TypedDict):
     content: str
 
 
-class AutoGPTPluginTemplate(AbstractSingleton, metaclass=Singleton):
+class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
     """
-    This is a template for Auto-GPT plugins.
+    This is a plugin to use Auto-GPT with OANDA API.
     """
 
     def __init__(self):
         super().__init__()
-        self._name = "Auto-GPT-Plugin-Template"
+        self._name = "Auto-GPT-OANDA-Plugin"
         self._version = "0.1.0"
-        self._description = "This is a template for Auto-GPT plugins."
+        self._description = "This is a plugin to use Auto-GPT with OANDA API."
 
     @abc.abstractmethod
     def can_handle_on_response(self) -> bool:
@@ -57,7 +60,93 @@ class AutoGPTPluginTemplate(AbstractSingleton, metaclass=Singleton):
         Returns:
             PromptGenerator: The prompt generator.
         """
-        pass
+        prompt.add_command(
+            "Order Create",
+            "order_create",
+            {
+                "instrument": "<instrument>",
+                "price": "<price>",
+                "stop_loss": "<stop_loss>",
+                "take_profit": "<take_profit>",
+                "units": "<units>",
+                "type": "<type>",
+            },
+            self.order_create
+        )
+        prompt.add_command(
+            "Order Cancel",
+            "order_cancel",
+            {
+                "order_id": "<order_id>",
+            },
+            self.order_cancel
+        )
+        prompt.add_command(
+            "Order Details",
+            "order_details",
+            {
+                "order_id": "<order_id>",
+            },
+            self.order_details
+        )
+        prompt.add_command(
+            "Order List",
+            "order_list",
+            {},
+            self.order_list
+        )
+        prompt.add_command(
+            "Trade Close",
+            "trade_close",
+            {
+                "trade_id": "<trade_id>",
+                "units": "<units>",
+            },
+            self.trade_close
+        )
+        prompt.add_command(
+            "Trade Details",
+            "trade_details",
+            {
+                "trade_id": "<trade_id>",
+            },
+            self.trade_details
+        )
+        prompt.add_command(
+            "Trades List",
+            "trades_list",
+            {
+                "instruments": "<instruments>",
+            },
+            self.trades_list
+        )
+        prompt.add_command(
+            "Instruments Candles",
+            "instruments_candles",
+            {
+                "instrument": "<instrument>",
+                "granularity": "<granularity>",
+                "count": "<count>",
+            },
+            self.instruments_candles
+        )
+        prompt.add_command(
+            "Get Account Summary",
+            "get_account_summary",
+            {
+            },
+            self.get_account_summary
+        )
+        prompt.add_command(
+            "Get Account Instruments",
+            "get_account_instruments",
+            {
+                "instruments": "<instruments>"
+            },
+            self.get_account_instruments
+        )
+        
+        return prompt
 
     @abc.abstractmethod
     def can_handle_on_planning(self) -> bool:
@@ -310,3 +399,124 @@ class AutoGPTPluginTemplate(AbstractSingleton, metaclass=Singleton):
             message (str): The message to report.
         """
         pass
+    
+    def order_create(
+        self, 
+        instrument: str,
+        price: float,
+        stop_loss: float,
+        take_profit: float,
+        units: float,
+        type: str,
+    ) -> Optional[Dict[str, Any]]:
+        trade = Trade()
+        data = trade.order_create(
+            instrument=instrument,
+            price=price,
+            stop_loss=stop_loss,
+            take_profit=take_profit,
+            units=units,
+            type=type,
+        )
+        return data
+
+    def order_cancel(
+        self, 
+        order_id: str,
+    ) -> Optional[Dict[str, Any]]:
+        trade = Trade()
+        data = trade.order_cancel(order_id)
+        return data
+    
+    def order_details(
+        self,
+        order_id: str,
+    ) -> Optional[Dict[str, Any]]:
+        trade = Trade()
+        data = trade.order_details(order_id)
+        return data
+    
+    def order_list(
+        self
+    ) -> Optional[Dict[str, Any]]:
+        trade = Trade()
+        data = trade.order_list()
+        return data
+    
+    def trade_close(
+        self, 
+        trade_id: str,
+        units: float
+    ) -> Optional[Dict[str, Any]]:
+        trade = Trade()
+        data = trade.trade_close(trade_id, units)
+        return data
+    
+    def trade_details(
+        self,
+        trade_id: str,
+    ) -> Optional[Dict[str, Any]]:
+        trade = Trade()
+        data = trade.trade_details(trade_id)
+        return data
+    
+    def trades_list(
+        self,
+        instruments: str
+    ) -> Optional[Dict[str, Any]]:
+        trade = Trade()
+        data = trade.trades_list(instruments)
+        return data
+    
+    # not implemented
+    def position_close(
+        self, 
+        position_id: str,
+        units: float
+    ) -> Optional[Dict[str, Any]]:
+        trade = Trade()
+        data = trade.position_close(position_id, units)
+        return data
+    
+    # not implemented
+    def position_details(
+        self,
+        position_id: str,
+    ) -> Optional[Dict[str, Any]]:
+        trade = Trade()
+        data = trade.position_details(position_id)
+        return data
+    
+    # not implemented
+    def position_list(
+        self,
+        instruments: str
+    ) -> Optional[Dict[str, Any]]:
+        trade = Trade()
+        data = trade.position_list(instruments)
+        return data
+    
+    def instruments_candles(
+        self,
+        instrument: str,
+        granularity: str,
+        count: int
+    ) -> Optional[Dict[str, Any]]:
+        market = Market()
+        data = market.instruments_candles(instrument, granularity, count)
+        return data
+    
+    def get_account_summary(
+        self
+    ) -> Optional[Dict[str, Any]]:
+        account = Account()
+        data = account.get_account_summary()
+        return data
+    
+    def get_account_instruments(
+        self,
+        instruments: str
+    ) -> Optional[Dict[str, Any]]:
+        account = Account()
+        data = account.get_account_instruments(instruments)
+        return data

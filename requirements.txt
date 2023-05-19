@@ -1,3 +1,4 @@
+# plugin dependencies
 black
 isort
 flake8
@@ -7,3 +8,10 @@ wheel
 setuptools
 build
 twine
+
+# application dependencies
+oandapyV20
+pandas
+numpy
+ta
+pydantic
