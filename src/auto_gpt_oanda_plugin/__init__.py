@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional, Tuple, TypeVar, TypedDict, Union
 from .trade import Trade
 from .market import Market
 from .account import Account
+from .lab import Lab
 
 from abstract_singleton import AbstractSingleton, Singleton
 
@@ -60,8 +61,9 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
         Returns:
             PromptGenerator: The prompt generator.
         """
+        # Trade
         prompt.add_command(
-            "Order Create",
+            "Create Order",
             "order_create",
             {
                 "instrument": "<instrument>",
@@ -74,7 +76,7 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.order_create
         )
         prompt.add_command(
-            "Order Cancel",
+            "Cancel Order",
             "order_cancel",
             {
                 "order_id": "<order_id>",
@@ -82,7 +84,7 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.order_cancel
         )
         prompt.add_command(
-            "Order Details",
+            "Get Order Details",
             "order_details",
             {
                 "order_id": "<order_id>",
@@ -90,13 +92,13 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.order_details
         )
         prompt.add_command(
-            "Order List",
+            "Get Order List",
             "order_list",
             {},
             self.order_list
         )
         prompt.add_command(
-            "Trade Close",
+            "Close Trade",
             "trade_close",
             {
                 "trade_id": "<trade_id>",
@@ -105,7 +107,7 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.trade_close
         )
         prompt.add_command(
-            "Trade Details",
+            "Get Trade Details",
             "trade_details",
             {
                 "trade_id": "<trade_id>",
@@ -113,7 +115,7 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.trade_details
         )
         prompt.add_command(
-            "Trades List",
+            "Get Trades List",
             "trades_list",
             {
                 "instruments": "<instruments>",
@@ -121,7 +123,7 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.trades_list
         )
         prompt.add_command(
-            "Position Close",
+            "Close Position",
             "position_close",
             {
                 "instrument": "<instrument>",
@@ -131,7 +133,7 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.position_close
         )
         prompt.add_command(
-            "Position Details",
+            "Get Position Details",
             "position_details",
             {
                 "instrument": "<instrument>",
@@ -145,8 +147,9 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             },
             self.position_list
         )
+        # Market
         prompt.add_command(
-            "Instruments Candles",
+            "Get Instruments Candles",
             "instruments_candles",
             {
                 "instrument": "<instrument>",
@@ -155,6 +158,7 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             },
             self.instruments_candles
         )
+        # Account
         prompt.add_command(
             "Get Account Summary",
             "get_account_summary",
@@ -169,6 +173,59 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
                 "instruments": "<instruments>"
             },
             self.get_account_instruments
+        )
+        # Lab
+        prompt.add_command(
+            "Get Autochartist Data",
+            "autochartist",
+            {
+                "instrument": "<instrument>",
+            },
+            self.autochartist,
+        )
+        prompt.add_command(
+            "Get Calendar",
+            "calendar",
+            {
+                "instrument": "<instrument>",
+                "period": "<period>",
+            },
+            self.calendar,
+        )
+        prompt.add_command(
+            "Get Commitments of Traders",
+            "commitments_of_traders",
+            {
+                "instrument": "<instrument>",
+            },
+            self.commitments_of_traders,
+        )
+        prompt.add_command(
+            "Get Historical Position Ratios",
+            "historical_position_ratios",
+            {
+                "instrument": "<instrument>",
+                "period": "<period>",
+            },
+            self.historical_position_ratios,
+        )
+        prompt.add_command(
+            "Get Orderbook Data",
+            "orderbook_data",
+            {
+                "instrument": "<instrument>",
+                "period": "<period>",
+            },
+            self.orderbook_data,
+        )
+        prompt.add_command(
+            "Get Spreads",
+            "spreads",
+            {
+                "instrument": "<instrument>",
+                "period": "<period>",
+            },
+            self.spreads,
         )
         
         return prompt
@@ -541,4 +598,56 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
     ) -> Optional[Dict[str, Any]]:
         account = Account()
         data = account.get_account_instruments(instruments)
+        return data
+    
+    def autochartist(
+        self,
+        instrument: str,
+    ) -> Optional[Dict[str, Any]]:
+        lab = Lab()
+        data = lab.autochartist(instrument)
+        return data
+    
+    def calendar(
+        self,
+        instrument: str,
+        period: str,
+    ) -> Optional[Dict[str, Any]]:
+        lab = Lab()
+        data = lab.calendar(instrument, period)
+        return data
+    
+    def commitments_of_traders(
+        self,
+        instrument: str,
+    ) -> Optional[Dict[str, Any]]:
+        lab = Lab()
+        data = lab.commitments_of_traders(instrument)
+        return data
+    
+    def historical_position_ratios(
+        self,
+        instrument: str,
+        period: str,
+    ) -> Optional[Dict[str, Any]]:
+        lab = Lab()
+        data = lab.historical_position_ratios(instrument, period)
+        return data
+    
+    def orderbook_data(
+        self,
+        instrument: str,
+        period: str,
+    ) -> Optional[Dict[str, Any]]:
+        lab = Lab()
+        data = lab.orderbook_data(instrument, period)
+        return data
+    
+    def spreads(
+        self,
+        instrument: str,
+        period: str,
+    ) -> Optional[Dict[str, Any]]:
+        lab = Lab()
+        data = lab.spreads(instrument, period)
         return data
