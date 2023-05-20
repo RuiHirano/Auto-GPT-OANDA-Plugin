@@ -1,6 +1,6 @@
 """This is a template for Auto-GPT plugins."""
 import abc
-from typing import Any, Dict, List, Optional, Tuple, TypeVar, TypedDict
+from typing import Any, Dict, List, Optional, Tuple, TypeVar, TypedDict, Union
 from .trade import Trade
 from .market import Market
 from .account import Account
@@ -119,6 +119,31 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
                 "instruments": "<instruments>",
             },
             self.trades_list
+        )
+        prompt.add_command(
+            "Position Close",
+            "position_close",
+            {
+                "instrument": "<instrument>",
+                "longUnits": "<longUnits>",
+                "shortUnits": "<shortUnits>",
+            },
+            self.position_close
+        )
+        prompt.add_command(
+            "Position Details",
+            "position_details",
+            {
+                "instrument": "<instrument>",
+            },
+            self.position_details
+        )
+        prompt.add_command(
+            "Position List",
+            "position_list",
+            {
+            },
+            self.position_list
         )
         prompt.add_command(
             "Instruments Candles",
@@ -468,32 +493,29 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
         data = trade.trades_list(instruments)
         return data
     
-    # not implemented
     def position_close(
         self, 
-        position_id: str,
-        units: float
+        instrument: str,
+        longUnits: Optional[Union[int,str]],
+        shortUnits: Optional[Union[int,str]],
     ) -> Optional[Dict[str, Any]]:
         trade = Trade()
-        data = trade.position_close(position_id, units)
+        data = trade.position_close(instrument, longUnits, shortUnits)
         return data
     
-    # not implemented
     def position_details(
         self,
-        position_id: str,
+        instrument: str,
     ) -> Optional[Dict[str, Any]]:
         trade = Trade()
-        data = trade.position_details(position_id)
+        data = trade.position_details(instrument)
         return data
     
-    # not implemented
     def position_list(
-        self,
-        instruments: str
+        self
     ) -> Optional[Dict[str, Any]]:
         trade = Trade()
-        data = trade.position_list(instruments)
+        data = trade.position_list()
         return data
     
     def instruments_candles(
