@@ -10,8 +10,8 @@ The AutoGPT MetaTrader Plugin is a software tool that enables traders to connect
 - ⛔️ **Close Trade**
 - ❌ **Close All Trades**
 - 🕯 **Candlestick Data**
-- 📝 **Modify Trades** (In-Progress)
-
+- 📝 **Modify Trades**
+- 📝 **Indicators** (In progress)
 
 ## 🔧 Installation
 
@@ -37,11 +37,6 @@ Compress the `Auto-GPT-OANDA-Plugin` folder or [download the repository as a zip
 ### 4. Install Auto-GPT
 If you haven't already, clone the [Auto-GPT](https://github.com/Significant-Gravitas/Auto-GPT) repository, follow its installation instructions, and navigate to the `Auto-GPT` folder.
 
-You might have to run this in the Auto-GPT file if you get an error saying "No Module Found".
-
-```bash
-pip install ta myfxbook
-```
 ### 5. Copy the Zip file into the Auto-GPT Plugin folder
 Transfer the zip file from step 3 into the `plugins` subfolder within the `Auto-GPT` repo.
 
@@ -64,13 +59,10 @@ Append the following configuration settings to the end of the file:
 OANDA_ACCOUNT_ID=
 OANDA_ACCESS_TOKEN=
 ```
-- Create a [MetaAPI](https://metaapi.cloud) account and connect to your broker.
-- MT5 accounts will need to have a paid account to access candlestick data.
-- Create a [MyFxBook](https://myfxbook.com) account and connect to your trading accounts.
-- Create a [FCS API](https://fcsapi.com) account. (500 calls/mo for free)
+- Create a OANDA MT4/MT5 account and generate API access token.
 - Set `OANDA_ACCOUNT_ID` to your OANDA account ID. 
 - Set `OANDA_ACCESS_TOKEN` to your OANDA access token.
-- 
+
 ### 10. Allowlist Plugin
 In your `.env` search for `ALLOWLISTED_PLUGINS` and add this Plugin:
 
