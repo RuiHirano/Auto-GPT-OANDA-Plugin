@@ -59,8 +59,8 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
         """
         # Trade
         prompt.add_command(
-            "Create Order",
             "order_create",
+            "Create Order",
             {
                 "instrument": "<instrument>",
                 "price": "<price>",
@@ -72,30 +72,30 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.order_create
         )
         prompt.add_command(
-            "Cancel Order",
             "order_cancel",
+            "Cancel Order",
             {
                 "order_id": "<order_id>",
             },
             self.order_cancel
         )
         prompt.add_command(
-            "Get Order Details",
             "order_details",
+            "Get Order Details",
             {
                 "order_id": "<order_id>",
             },
             self.order_details
         )
         prompt.add_command(
-            "Get Order List",
             "order_list",
+            "Get Order List",
             {},
             self.order_list
         )
         prompt.add_command(
-            "Close Trade",
             "trade_close",
+            "Close Trade",
             {
                 "trade_id": "<trade_id>",
                 "units": "<units>",
@@ -103,24 +103,24 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.trade_close
         )
         prompt.add_command(
-            "Get Trade Details",
             "trade_details",
+            "Get Trade Details",
             {
                 "trade_id": "<trade_id>",
             },
             self.trade_details
         )
         prompt.add_command(
-            "Get Trades List",
             "trades_list",
+            "Get Trades List",
             {
                 "instruments": "<instruments>",
             },
             self.trades_list
         )
         prompt.add_command(
-            "Close Position",
             "position_close",
+            "Close Position",
             {
                 "instrument": "<instrument>",
                 "longUnits": "<longUnits>",
@@ -129,24 +129,24 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.position_close
         )
         prompt.add_command(
-            "Get Position Details",
             "position_details",
+            "Get Position Details",
             {
                 "instrument": "<instrument>",
             },
             self.position_details
         )
         prompt.add_command(
-            "Position List",
             "position_list",
+            "Position List",
             {
             },
             self.position_list
         )
         # Market
         prompt.add_command(
-            "Get Instruments Candles",
             "instruments_candles",
+            "Get Instruments Candles",
             {
                 "instrument": "<instrument>",
                 "granularity": "<granularity>",
@@ -156,15 +156,15 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
         )
         # Account
         prompt.add_command(
-            "Get Account Summary",
             "get_account_summary",
+            "Get Account Summary",
             {
             },
             self.get_account_summary
         )
         prompt.add_command(
-            "Get Account Instruments",
             "get_account_instruments",
+            "Get Account Instruments",
             {
                 "instruments": "<instruments>"
             },
@@ -172,16 +172,16 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
         )
         # Lab
         prompt.add_command(
-            "Get Autochartist Data",
             "autochartist",
+            "Get Autochartist Data",
             {
                 "instrument": "<instrument>",
             },
             self.autochartist,
         )
         prompt.add_command(
-            "Get Calendar",
             "calendar",
+            "Get Calendar",
             {
                 "instrument": "<instrument>",
                 "period": "<period>",
@@ -189,16 +189,16 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.calendar,
         )
         prompt.add_command(
-            "Get Commitments of Traders",
             "commitments_of_traders",
+            "Get Commitments of Traders",
             {
                 "instrument": "<instrument>",
             },
             self.commitments_of_traders,
         )
         prompt.add_command(
-            "Get Historical Position Ratios",
             "historical_position_ratios",
+            "Get Historical Position Ratios",
             {
                 "instrument": "<instrument>",
                 "period": "<period>",
@@ -206,8 +206,8 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.historical_position_ratios,
         )
         prompt.add_command(
-            "Get Orderbook Data",
             "orderbook_data",
+            "Get Orderbook Data",
             {
                 "instrument": "<instrument>",
                 "period": "<period>",
@@ -215,8 +215,8 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
             self.orderbook_data,
         )
         prompt.add_command(
-            "Get Spreads",
             "spreads",
+            "Get Spreads",
             {
                 "instrument": "<instrument>",
                 "period": "<period>",
