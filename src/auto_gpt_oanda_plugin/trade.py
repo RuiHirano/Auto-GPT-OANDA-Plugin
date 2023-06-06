@@ -3,33 +3,30 @@ from oandapyV20 import API
 import oandapyV20.endpoints.orders as orders
 import oandapyV20.endpoints.trades as trades
 import oandapyV20.endpoints.positions as positions
-from typing import List, Optional, Union
+from typing import Optional, Union
 from .settings import settings
 
 class Trade:
     def __init__(self):
         self.api = API(settings.OANDA_ACCESS_TOKEN)
     
-    def order_create(self, instrument: str, price: float, stop_loss: Optional[float], take_profit: Optional[float], units: float, type: str) -> None:
+    def order_create(self, instrument: str, price: float, units: int, stop_loss: Optional[float]=None, take_profit: Optional[float]=None, type: str="MARKET") -> None:
         data = {
             "order": {
-                "price": price,
-                "timeInForce": "GTC",
+                "price": str(price),
                 "instrument": instrument,
-                "units": units,
+                "units": str(units),
                 "type": type,
                 "positionFill": "DEFAULT"
             }
         }
         if stop_loss:
             data["order"]["stopLossOnFill"] = {
-                "timeInForce": "GTC",
-                "price": stop_loss
+                "price": str(stop_loss)
             }
         if take_profit:
             data["order"]["takeProfitOnFill"] = {
-                "timeInForce": "GTC",
-                "price": take_profit
+                "price": str(take_profit)
             }
         r = orders.OrderCreate(settings.OANDA_ACCOUNT_ID, data=data)
         self.api.request(r)
@@ -50,7 +47,7 @@ class Trade:
         self.api.request(r)
         return r.response
     
-    def trade_close(self, trade_id: str, units: float) -> None:
+    def trade_close(self, trade_id: str, units: str) -> None:
         data = {
             "units": units
         }
@@ -71,25 +68,22 @@ class Trade:
         self.api.request(r)
         return r.response
     
-    # not implemented
-    def position_close(self, instrument: str, longUnits: Optional[Union[int,str]] = None, shortUnits: Optional[Union[int,str]] = None) -> None:
+    def position_close(self, instrument: str, long_units: Optional[Union[int,str]] = None, short_units: Optional[Union[int,str]] = None) -> None:
         data = {}
-        if longUnits:
-            data["longUnits"] = longUnits
-        elif shortUnits:
-            data["shortUnits"] = shortUnits
+        if long_units:
+            data["longUnits"] = str(long_units)
+        elif short_units:
+            data["shortUnits"] = str(short_units)
             
         r = positions.PositionClose(settings.OANDA_ACCOUNT_ID, instrument=instrument, data=data)
         self.api.request(r)
         return r.response
     
-    # not implemented
     def position_details(self, instrument: str) -> None:
         r = positions.PositionDetails(accountID=settings.OANDA_ACCOUNT_ID, instrument=instrument)
         self.api.request(r)
         return r.response
         
-    # not implemented
     def position_list(self) -> None:
         r = positions.PositionList(settings.OANDA_ACCOUNT_ID)
         self.api.request(r)
