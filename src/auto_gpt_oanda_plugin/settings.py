@@ -9,5 +9,9 @@ class Settings(BaseSettings):
     # case_sensitive=Trueの場合、環境変数名はフィールド名と一致する必要がある
     class Config:
         case_sensitive = True
+        
+    @property
+    def __name__(self):
+        return "AutoGPTPluginTemplate"
 
 settings = Settings()

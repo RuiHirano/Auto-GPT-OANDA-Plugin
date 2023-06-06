@@ -58,7 +58,7 @@ Append the following configuration settings to the end of the file:
 ################################################################################
 OANDA_ACCOUNT_ID=
 OANDA_ACCESS_TOKEN=
-OANDA_ENVIRONMENT=
+OANDA_ENVIRONMENT=practice
 OANDA_ENABLE_COMMANDS=order_create,order_cancel,order_details,order_list,trade_close,trade_details,trades_list,position_close,position_details,position_list,instruments_candles,get_account_summary,get_account_instruments,autochartist,calendar,commitments_of_traders,spreads
 ```
 - Create a OANDA MT4/MT5 account and generate API access token.
@@ -82,7 +82,14 @@ You can review the available commands and indicators [here](/src/auto_gpt_oanda_
 
 ## 🧪 Test the Auto-GPT OANDA Plugin
 
-Writing...
+ai_settings.yaml
+```
+ai_name: TradeGPT
+ai_role: fetch candlestick data
+ai_goals:
+-  fetch candlestick data for the 1 hour chart on EURUSD
+-  Terminate
+```
 
 ## 📉 Indicators (In-Progress):
 -  **Relative Strength Index (RSI)**
