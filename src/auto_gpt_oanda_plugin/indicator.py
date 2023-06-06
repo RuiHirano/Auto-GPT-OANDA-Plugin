@@ -1,9 +1,8 @@
-import numpy as np
 import pandas as pd
 from ta.utils import dropna
 from ta.momentum import RSIIndicator, StochasticOscillator, TSIIndicator
 from ta.trend import SMAIndicator, EMAIndicator, WMAIndicator, MACD, ADXIndicator
-from ta.volume import AccDistIndexIndicator, MFIIndicator
+from ta.volume import AccDistIndexIndicator
 
 class Indicator:
     def __init__(self):

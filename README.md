@@ -58,10 +58,14 @@ Append the following configuration settings to the end of the file:
 ################################################################################
 OANDA_ACCOUNT_ID=
 OANDA_ACCESS_TOKEN=
+OANDA_ENVIRONMENT=
+OANDA_ENABLE_COMMANDS=order_create,order_cancel,order_details,order_list,trade_close,trade_details,trades_list,position_close,position_details,position_list,instruments_candles,get_account_summary,get_account_instruments,autochartist,calendar,commitments_of_traders,spreads
 ```
 - Create a OANDA MT4/MT5 account and generate API access token.
 - Set `OANDA_ACCOUNT_ID` to your OANDA account ID. 
 - Set `OANDA_ACCESS_TOKEN` to your OANDA access token.
+- Set `OANDA_ENVIRONMENT`, `live` or `practice`.
+- Set `OANDA_ENABLE_COMMANDS` to be enabled commands.
 
 ### 10. Allowlist Plugin
 In your `.env` search for `ALLOWLISTED_PLUGINS` and add this Plugin:

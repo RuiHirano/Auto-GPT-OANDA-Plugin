@@ -1,10 +1,11 @@
 """This is a template for Auto-GPT plugins."""
-import abc
+
 from typing import Any, Dict, List, Optional, Tuple, TypeVar, TypedDict, Union
 from .trade import Trade
 from .market import Market
 from .account import Account
 from .lab import Lab
+from .settings import settings
 
 from abstract_singleton import AbstractSingleton, Singleton
 
@@ -57,172 +58,198 @@ class AutoGPTOandaPlugin(AbstractSingleton, metaclass=Singleton):
         Returns:
             PromptGenerator: The prompt generator.
         """
+        enable_commands = settings.OANDA_ENABLE_COMMANDS.split(",")
         # Trade
-        prompt.add_command(
-            "order_create",
-            "Create Order",
-            {
-                "instrument": "<instrument>",
-                "price": "<price>",
-                "stop_loss": "<stop_loss>",
-                "take_profit": "<take_profit>",
-                "units": "<units>",
-                "type": "<type>",
-            },
-            self.order_create
-        )
-        prompt.add_command(
-            "order_cancel",
-            "Cancel Order",
-            {
-                "order_id": "<order_id>",
-            },
-            self.order_cancel
-        )
-        prompt.add_command(
-            "order_details",
-            "Get Order Details",
-            {
-                "order_id": "<order_id>",
-            },
-            self.order_details
-        )
-        prompt.add_command(
-            "order_list",
-            "Get Order List",
-            {},
-            self.order_list
-        )
-        prompt.add_command(
-            "trade_close",
-            "Close Trade",
-            {
-                "trade_id": "<trade_id>",
-                "units": "<units>",
-            },
-            self.trade_close
-        )
-        prompt.add_command(
-            "trade_details",
-            "Get Trade Details",
-            {
-                "trade_id": "<trade_id>",
-            },
-            self.trade_details
-        )
-        prompt.add_command(
-            "trades_list",
-            "Get Trades List",
-            {
-                "instruments": "<instruments>",
-            },
-            self.trades_list
-        )
-        prompt.add_command(
-            "position_close",
-            "Close Position",
-            {
-                "instrument": "<instrument>",
-                "longUnits": "<longUnits>",
-                "shortUnits": "<shortUnits>",
-            },
-            self.position_close
-        )
-        prompt.add_command(
-            "position_details",
-            "Get Position Details",
-            {
-                "instrument": "<instrument>",
-            },
-            self.position_details
-        )
-        prompt.add_command(
-            "position_list",
-            "Position List",
-            {
-            },
-            self.position_list
-        )
+        if "order_create" in enable_commands:
+            prompt.add_command(
+                "order_create",
+                "Create Order",
+                {
+                    "instrument": "<instrument>",
+                    "price": "<price>",
+                    "stop_loss": "<stop_loss>",
+                    "take_profit": "<take_profit>",
+                    "units": "<units>",
+                    "type": "<type>",
+                },
+                self.order_create
+            )
+        if "order_cancel" in enable_commands:
+            prompt.add_command(
+                "order_cancel",
+                "Cancel Order",
+                {
+                    "order_id": "<order_id>",
+                },
+                self.order_cancel
+            )
+        if "order_details" in enable_commands:
+            prompt.add_command(
+                "order_details",
+                "Get Order Details",
+                {
+                    "order_id": "<order_id>",
+                },
+                self.order_details
+            )
+        if "order_list" in enable_commands:
+            prompt.add_command(
+                "order_list",
+                "Get Order List",
+                {},
+                self.order_list
+            )
+        if "trade_close" in enable_commands:
+            prompt.add_command(
+                "trade_close",
+                "Close Trade",
+                {
+                    "trade_id": "<trade_id>",
+                    "units": "<units>",
+                },
+                self.trade_close
+            )
+        if "trade_details" in enable_commands:
+            prompt.add_command(
+                "trade_details",
+                "Get Trade Details",
+                {
+                    "trade_id": "<trade_id>",
+                },
+                self.trade_details
+            )
+        if "trades_list" in enable_commands:
+            prompt.add_command(
+                "trades_list",
+                "Get Trades List",
+                {
+                    "instruments": "<instruments>",
+                },
+                self.trades_list
+            )
+        if "position_close" in enable_commands:
+            prompt.add_command(
+                "position_close",
+                "Close Position",
+                {
+                    "instrument": "<instrument>",
+                    "longUnits": "<longUnits>",
+                    "shortUnits": "<shortUnits>",
+                },
+                self.position_close
+            )
+        if "position_details" in enable_commands:
+            prompt.add_command(
+                "position_details",
+                "Get Position Details",
+                {
+                    "instrument": "<instrument>",
+                },
+                self.position_details
+            )
+        if "position_list" in enable_commands:
+            prompt.add_command(
+                "position_list",
+                "Position List",
+                {
+                },
+                self.position_list
+            )
         # Market
-        prompt.add_command(
-            "instruments_candles",
-            "Get Instruments Candles",
-            {
-                "instrument": "<instrument>",
-                "granularity": "<granularity>",
-                "count": "<count>",
-            },
-            self.instruments_candles
-        )
+        if "instruments_candles" in enable_commands:
+            prompt.add_command(
+                "instruments_candles",
+                "Get Instruments Candles",
+                {
+                    "instrument": "<instrument>",
+                    "granularity": "<granularity>",
+                    "count": "<count>",
+                },
+                self.instruments_candles
+            )
         # Account
-        prompt.add_command(
-            "get_account_summary",
-            "Get Account Summary",
-            {
-            },
-            self.get_account_summary
-        )
-        prompt.add_command(
-            "get_account_instruments",
-            "Get Account Instruments",
-            {
-                "instruments": "<instruments>"
-            },
-            self.get_account_instruments
-        )
+        if "get_account_summary" in enable_commands:
+            prompt.add_command(
+                "get_account_summary",
+                "Get Account Summary",
+                {
+                },
+                self.get_account_summary
+            )
+        if "get_account_instruments" in enable_commands:
+            prompt.add_command(
+                "get_account_instruments",
+                "Get Account Instruments",
+                {
+                    "instruments": "<instruments>"
+                },
+                self.get_account_instruments
+            )
         # Lab
-        prompt.add_command(
-            "autochartist",
-            "Get Autochartist Data",
-            {
-                "instrument": "<instrument>",
-            },
-            self.autochartist,
-        )
-        prompt.add_command(
-            "calendar",
-            "Get Calendar",
-            {
-                "instrument": "<instrument>",
-                "period": "<period>",
-            },
-            self.calendar,
-        )
-        prompt.add_command(
-            "commitments_of_traders",
-            "Get Commitments of Traders",
-            {
-                "instrument": "<instrument>",
-            },
-            self.commitments_of_traders,
-        )
-        prompt.add_command(
-            "historical_position_ratios",
-            "Get Historical Position Ratios",
-            {
-                "instrument": "<instrument>",
-                "period": "<period>",
-            },
-            self.historical_position_ratios,
-        )
-        prompt.add_command(
-            "orderbook_data",
-            "Get Orderbook Data",
-            {
-                "instrument": "<instrument>",
-                "period": "<period>",
-            },
-            self.orderbook_data,
-        )
-        prompt.add_command(
-            "spreads",
-            "Get Spreads",
-            {
-                "instrument": "<instrument>",
-                "period": "<period>",
-            },
-            self.spreads,
-        )
+        if "autochartist" in enable_commands:
+            prompt.add_command(
+                "autochartist",
+                "Get Autochartist Data",
+                {
+                    "instrument": "<instrument>",
+                },
+                self.autochartist,
+            )
+        if "calendar" in enable_commands:
+            prompt.add_command(
+                "calendar",
+                "Get Calendar",
+                {
+                    "instrument": "<instrument>",
+                    "period": "<period>",
+                },
+                self.calendar,
+            )
+        if "commitments_of_traders" in enable_commands:
+            prompt.add_command(
+                "commitments_of_traders",
+                "Get Commitments of Traders",
+                {
+                    "instrument": "<instrument>",
+                },
+                self.commitments_of_traders,
+            )
+        # TODO: Error: The v1 orderbook_data endpoint has been disabled
+        '''
+        if "historical_position_ratios" in enable_commands:
+            prompt.add_command(
+                "historical_position_ratios",
+                "Get Historical Position Ratios",
+                {
+                    "instrument": "<instrument>",
+                    "period": "<period>",
+                },
+                self.historical_position_ratios,
+            )
+        '''
+        # TODO: Error: The v1 orderbook_data endpoint has been disabled
+        '''
+        if "orderbook_data" in enable_commands:
+            prompt.add_command(
+                "orderbook_data",
+                "Get Orderbook Data",
+                {
+                    "instrument": "<instrument>",
+                    "period": "<period>",
+                },
+                self.orderbook_data,
+            )
+        '''
+        if "spreads" in enable_commands:
+            prompt.add_command(
+                "spreads",
+                "Get Spreads",
+                {
+                    "instrument": "<instrument>",
+                    "period": "<period>",
+                },
+                self.spreads,
+            )
         
         return prompt
 
